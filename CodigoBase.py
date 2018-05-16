@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Created on Wed May  9 00:51:28 2018
 
@@ -7,6 +7,13 @@ Created on Wed May  9 00:51:28 2018
 
 import pygame
 import random
+from firebase import firebase
+
+firebase= firebase.FirebaseApplication('https://highscorejumper.firebaseio.com/',None)
+if firebase.get('pasta',None) is None: #Cria o dicionario caso nao exista
+    Highscore = {'highscore': 0}
+else: #Abre o dicionario salvo no Firebase
+    Highscore = firebase.get('pasta',None)
 
 white = (255,255,255)
 black = (0,0,0)
@@ -18,7 +25,7 @@ width = 800
 height = 600
 size = 10
 gravity = 1
-
+scoremax = 0
 #=========  CLASSES ==========
 
 class Boneco (pygame.sprite.Sprite):
@@ -106,11 +113,17 @@ while sair:
     
     boneco.vy += gravity
     
-    score=boneco.rect.y  #A janela do jogo tem como ponto mais baixo 600, e conforme\
+    
+    score = -boneco.rect.y + 600  #A janela do jogo tem como ponto mais baixo 600, e conforme\
                          # o jogador sobe a pontuacao desce pois a borda superior eh o\
                          # 0 e acima disso os numeros passam a ser negativos, \
                          # devemos pensar em alguma forma de arrumar isso para\
                          # ter uma pontuacao dependendo da altura.**
+    if score > scoremax:
+        scoremax = score
+    if scoremax > Highscore['highscore']:
+        Highscore['highscore'] = scoremax
+        
     
 #Feito para o objeto "atravessar" as bordas e reaparecer do outro lado
     if boneco.rect.x > width:
@@ -124,7 +137,7 @@ while sair:
         boneco.vy=-15                                              
         
     tela.blit(fundo, (0, 0))
-    scoretext = myfont.render("Score {0}".format(score), 1, (0,0,0))
+    scoretext = myfont.render("Score {0}, Highscore {1}".format(scoremax,Highscore['highscore']), 1, (0,0,0))
     tela.blit(scoretext, (5, 10))
     boneco_group.draw(tela)
     plataforma_group.draw(tela)
@@ -132,7 +145,7 @@ while sair:
     pygame.display.update()      #coloca a tela na janela
     relogio.tick(30) #Define FPS
 
-
+firebase.patch('/pasta',Highscore)
 pygame.quit() #Sai do jogo
 
     
