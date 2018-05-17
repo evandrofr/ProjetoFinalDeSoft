@@ -1,0 +1,24 @@
+    
+    def __init__(self, imagem, pos_x, pos_y, vel_y):
+        pygame.sprite.Sprite.__init__(self)
+        self.imagem = pygame.image.load(imagem)
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        self.vy = vel_y
+    
+    def move(self):
+        self.y += self.vy
+   
+imagem_de_fundo = pygame.image.load('fundo-640X480.jpg').convert()   
+##### LOOPING PRINCIPAL #####
+rodando = True
+while rodando:
+    for event in pygame.event.get():
+      if event.type == QUIT:
+        rodando = False
+#movendo a imagem de fundo
+    imagem_de_fundo.move()
+    if Boneco move.rect.y:
+        imagem_de_fundo.pygame.time.delay(1500) : move.rect.y
+    
