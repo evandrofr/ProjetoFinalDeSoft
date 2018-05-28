@@ -24,7 +24,7 @@ red = (255,0,0)
 blue = (0,0,255)
 green = (0,255,0)
 
-width = 800
+width = 600
 height = 600
 size = 10
 gravity = 1
@@ -162,9 +162,8 @@ while loopgeral:
     js = jogar_selecionado
     sa = sair
      
-    selec = 0
     #variavel para o movimento do cursor
-    start=[280,250]
+    start=[200,250]
     
     relogio = pygame.time.Clock() #Cria relogio para definir FPS
     tela = pygame.display.set_mode((width,height),0,32) #Tamanho da tela
@@ -186,9 +185,9 @@ while loopgeral:
     
     
     while plataforma.rect.y > disty:   #Adicionar plataformar aleatorias
-        plataforma = Plataforma("Imagens/Plataforma_verde.png",plataforma.rect.x + random.randrange(0,width),plataforma.rect.y-disty)
-        plataforma2 = Plataforma("Imagens/Plataforma_verde.png",random.randrange(0,width),plataforma.rect.y-disty)
-        plataforma_quebra=Plataforma("Imagens/Plataforma_Quebra.png",random.randrange(0,width),plataforma.rect.y-disty)
+        plataforma = Plataforma("Imagens/Plataforma_verde.png",plataforma.rect.x + random.randrange(0,width-50),plataforma.rect.y-disty)
+        plataforma2 = Plataforma("Imagens/Plataforma_verde.png",random.randrange(0,width-50),plataforma.rect.y-disty)
+        plataforma_quebra=Plataforma("Imagens/Plataforma_Quebra.png",random.randrange(0,width-50),plataforma.rect.y-disty)
         plataforma_group2.add(plataforma_quebra)
         plataforma_group.add(plataforma)
         plataforma_group.add(plataforma2)
@@ -214,26 +213,26 @@ while loopgeral:
                     js=jogar
                     sa=sair_selecionado
                     selec=2
-                    start=[280,350]
+                    start=[200,360]
             
                 elif js==jogar_selecionado and pressed_keys[pygame.K_UP]:
                     js=jogar
                     sa=sair_selecionado
                     selec=2
-                    start=[280,350]
+                    start=[200,360]
             
             
                 elif sa==sair_selecionado and pressed_keys[pygame.K_DOWN]:
                     js=jogar_selecionado
                     sa=sair
                     selec=1
-                    start=[280,250]
+                    start=[200,260]
             
                 elif sa==sair_selecionado and pressed_keys[pygame.K_UP]:
                     js=jogar_selecionado
                     sa=sair
                     selec=1
-                    start=[280,250]
+                    start=[200,260]
             
                 elif selec==1 and event.key==pygame.K_RETURN:
                     menuloop = False
@@ -249,9 +248,9 @@ while loopgeral:
             
             
             tela.blit(fundo, (0, 0))
-            tela.blit(js, [350,250])
-            tela.blit(sa, [350,350])
-            tela.blit(nome_jogo, [270,100])
+            tela.blit(js, [250,250])
+            tela.blit(sa, [250,350])
+            tela.blit(nome_jogo, [150,100])
             tela.blit(pygame.image.load("cursor.png"), start)
             boneco_group.draw(tela)
             pygame.display.flip()      #coloca a tela na janela
@@ -360,26 +359,26 @@ while loopgeral:
                     mn = menu
                     sa = sair_selecionado
                     select = 2
-                    start = [280,350]
+                    start = [200,360]
             
                 elif mn == menu_selecionado and pressed_keys[pygame.K_UP]:
                     mn = menu
                     sa = sair_selecionado
                     select = 2
-                    start = [280,350]
+                    start = [200,360]
             
             
                 elif sa == sair_selecionado and pressed_keys[pygame.K_DOWN]:
                     mn = menu_selecionado
                     sa = sair
                     select = 1
-                    start = [280,250]
+                    start = [200,260]
             
                 elif sa == sair_selecionado and pressed_keys[pygame.K_UP]:
                     mn = menu_selecionado
                     sa = sair
                     select = 1
-                    start = [280,250]
+                    start = [200,260]
             
                 elif selec==1 and event.key==pygame.K_RETURN:
                     gameover = False
@@ -397,9 +396,9 @@ while loopgeral:
             
     #        mov += 1
             tela.blit(fundo, (0, 0))
-            tela.blit(mn, [350,250])
-            tela.blit(sa, [350,350])
-            tela.blit(nome_gameover, [250,100])
+            tela.blit(mn, [250,250])
+            tela.blit(sa, [250,350])
+            tela.blit(nome_gameover, [120,100])
             tela.blit(pygame.image.load("cursor.png"), start)
             boneco_group.draw(tela)
             pygame.display.flip()      #coloca a tela na janela
@@ -412,6 +411,7 @@ while loopgeral:
 
 firebase.patch('/pasta',Highscore)
 pygame.quit() #Sai do jogo
+
 
     
     
