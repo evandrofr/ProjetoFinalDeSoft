@@ -172,7 +172,7 @@ while loopgeral:
     # carrega imagem de  
     fundo = pygame.image.load("Imagens/Fundo_800x600.png").convert()
     
-    boneco = Boneco("Imagens/Alien_80x80.png",width/2,height*(90/100),0,-1/10)
+    boneco = Boneco("Imagens/Alien_azul.png",width/2,height*(90/100),0,-1/10)
     boneco_group = pygame.sprite.Group()
     boneco_group.add(boneco)
     
