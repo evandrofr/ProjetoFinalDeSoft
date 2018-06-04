@@ -78,6 +78,10 @@ class Plataforma (pygame.sprite.Sprite):
         self.rect.x = pos_x
         self.rect.y = pos_y
         self.platforms = [[400, 500, 0, 0]]
+        
+    def move(self):
+        self.rect.x += self.vx
+        self.rect.y += self.vy
 
 #===============  FUNÇÕES AUXILIARES ===============
 def texto(mensagem, cor):
@@ -88,70 +92,6 @@ def texto(mensagem, cor):
 
 
 # ===============   INICIALIZAÇÃO   ===============
-        
-#pygame.init()
-#pygame.mixer.init()
-##pygame.Font.init()
-#som_pulo = pygame.mixer.Sound("phaseJump2.ogg")
-#
-#relogio = pygame.time.Clock() #Cria relogio para definir FPS
-#
-#tela = pygame.display.set_mode((width,height),0,32) #Tamanho da tela
-#pygame.display.set_caption('Jumper') #Nome na aba
-#
-## carrega imagem de  
-#fundo = pygame.image.load("Imagens/Fundo_800x600.png").convert()
-#
-#boneco = Boneco("Imagens/Alien_80x80.png",width/2,height*(90/100),0,-1/10)
-#boneco_group = pygame.sprite.Group()
-#boneco_group.add(boneco)
-#
-#plataforma_group = pygame.sprite.Group()
-#
-#plataforma = Plataforma("Imagens/Plataforma_verde.png",width/2,height*(95/100))
-#plataforma_group.add(plataforma)
-#
-#plataforma_group2 = pygame.sprite.Group()
-#
-#
-#distx=400
-#disty = 50
-#
-#while plataforma.rect.y > disty:   #Adicionar plataformar aleatorias
-#    plataforma = Plataforma("Imagens/Plataforma_verde.png",plataforma.rect.x + random.randrange(0,width),plataforma.rect.y-disty)
-#    plataforma2 = Plataforma("Imagens/Plataforma_verde.png",random.randrange(0,width),plataforma.rect.y-disty)
-#    plataforma_quebra=Plataforma("Imagens/Plataforma_Quebra.png",random.randrange(0,width),plataforma.rect.y-disty)
-#    plataforma_group2.add(plataforma_quebra)
-#    plataforma_group.add(plataforma)
-#    plataforma_group.add(plataforma2)
-#
-#score=0
-#myfont = pygame.font.SysFont("monospace", 16)
-#scoretext = myfont.render("Score = "+str(score), 1, (0,0,0))
-#tela.blit(scoretext, (5, 10))
-
-# ===============   LOOPING MENU   ===============
-
-#menu = True
-#while menu:
-#    
-#    for event in pygame.event.get(): #Controla eventos
-#        pressed_keys=pygame.key.get_pressed()
-#        if pressed_keys[pygame.K_c]:
-#            menu = False
-#        if pressed_keys[pygame.K_q]:
-#            pygame.quit()
-#    tela.blit(fundo, (0, 0))
-#    texto("Jumper! Utilize as setas para mover o boneco!Clique C para iniciar ou Clique Q para sair!", red)
-#    scoretext = myfont.render("Score {0}, Highscore {1}".format(scoremax,Highscore['highscore']), 1, (0,0,0))
-#    tela.blit(scoretext, (5, 10))
-#    boneco_group.draw(tela)
-#    plataforma_group.draw(tela)
-#    plataforma_group2.draw(tela)
-#    pygame.display.flip()      #coloca a tela na janela
-#    pygame.display.update()
-#    relogio.tick(30)
-
 
 #Opçoes do menu
 loopgeral = True
@@ -182,6 +122,10 @@ while loopgeral:
     plataforma_group.add(plataforma)
     
     plataforma_group2 = pygame.sprite.Group()
+    
+    plataformaMovel = Plataforma("Imagens/Plataforma_Movel.png",100,400)
+    plataformaMovel_group=pygame.sprite.Group()
+    plataformaMovel_group.add(plataformaMovel)
     
     
     while plataforma.rect.y > disty:   #Adicionar plataformar aleatorias
@@ -284,14 +228,9 @@ while loopgeral:
         boneco.rect.x += boneco.vx*3.5
         boneco.vy += gravity
     
-        
-        
-    #    if score > scoremax:
-    #        scoremax = score
         if scoremax > Highscore['highscore']:
             Highscore['highscore'] = scoremax
             
-        
     #Feito para o objeto "atravessar" as bordas e reaparecer do outro lado
         if boneco.rect.x > width:
             boneco.rect.x = 0
@@ -330,16 +269,13 @@ while loopgeral:
             if plataforma.rect.y >= height:
                 plataforma.kill()
         
-    #    while len(plataforma_group) < 10:
-    #        p = Plataforma("Imagens/Plataforma_verde.png",plataforma.rect.x + random.randrange(0,800),-boneco.rect.y-disty)
-    #        plataforma_group.add(p)
-            
         tela.blit(fundo, (0, 0))
         scoretext = myfont.render("Score {0}, Highscore {1}".format(scoremax,Highscore['highscore']), 1, (0,0,0))
         tela.blit(scoretext, (5, 10))
         boneco_group.draw(tela)
         plataforma_group.draw(tela)
         plataforma_group2.draw(tela)
+        plataformaMovel_group.draw(tela)
         pygame.display.update()      #coloca a tela na janela
         relogio.tick(30) #Define FPS
         
@@ -392,9 +328,7 @@ while loopgeral:
                     loopgeral = False
                     loop = False
                     
-            
-            
-    #        mov += 1
+                    
             tela.blit(fundo, (0, 0))
             tela.blit(mn, [250,250])
             tela.blit(sa, [250,350])
@@ -406,23 +340,10 @@ while loopgeral:
             relogio.tick(30) 
 
 
-
-
-
 firebase.patch('/pasta',Highscore)
 pygame.quit() #Sai do jogo
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
