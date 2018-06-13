@@ -102,7 +102,6 @@ class PlataformaM (pygame.sprite.Sprite):
 def texto(mensagem, cor):
     texto1 = myfont.render(mensagem, True, cor)
     tela.blit(texto1, [width/6, height/2])
-#    pygame.display.flip()
     
 # ===============   INICIALIZAÇÃO E VARIAVIEIS  ===============
     
@@ -127,8 +126,8 @@ delta2 = 7
 tick_counter = 0
 fps = 30
 tempo1 =fps*1     #fps*segundos
-tempo2 = fps*15
-tempo3 = fps*30 
+tempo2 = fps*30
+tempo3 = fps*60 
 
 distx = 400
 disty = 50
@@ -163,30 +162,12 @@ pygame.display.set_caption('Jumper') #Nome na aba
 # carrega imagem de  
 fundo = pygame.image.load("Imagens/Fundo_800x600.png").convert()
 
-boneco = Boneco("Imagens/Alien_azul.png",width/2,height*(90/100),0,-1/10)
-boneco_group = pygame.sprite.Group()
-boneco_group.add(boneco)
-
-boneco2 = Boneco2("Imagens/Alien_verde.png",width/2,height*(90/100),0,-1/10)
-boneco2_group = pygame.sprite.Group()
-boneco2_group.add(boneco2)
 
 distx=200
 disty = 50
 
-plataforma = Plataforma("Imagens/Plataforma_verde.png",width/2,height*(95/100))
-plataforma_group = pygame.sprite.Group()
-plataforma_group.add(plataforma)
 
 plataforma_group2 = pygame.sprite.Group()
-
-plataformaMovel = PlataformaM("Imagens/Plataforma_Movel.png",0,800,0,0)
-plataformaMovel_group=pygame.sprite.Group()
-plataformaMovel_group.add(plataformaMovel)
-
-monstro = Monstro("Imagens/Monstro.png",0,800,0,0)
-monstro_group=pygame.sprite.Group()
-monstro_group.add(monstro)
 
 
 # ===============   lOOPS   ===============
@@ -202,6 +183,27 @@ while loopgeral:
     sa = sair
     scoremax = 0
     scoremax2 = 0
+    tick_counter = 0
+    
+    boneco = Boneco("Imagens/Alien_azul.png",width/2,height*(90/100),0,-1/10)
+    boneco_group = pygame.sprite.Group()
+    boneco_group.add(boneco)
+    
+    plataforma = Plataforma("Imagens/Plataforma_verde.png",width/2,height*(95/100))
+    plataforma_group = pygame.sprite.Group()
+    plataforma_group.add(plataforma)
+    
+    boneco2 = Boneco2("Imagens/Alien_verde.png",width/2,height*(90/100),0,-1/10)
+    boneco2_group = pygame.sprite.Group()
+    boneco2_group.add(boneco2)
+    
+    plataformaMovel = PlataformaM("Imagens/Plataforma_Movel.png",0,800,0,0)
+    plataformaMovel_group=pygame.sprite.Group()
+    plataformaMovel_group.add(plataformaMovel)
+    
+    monstro = Monstro("Imagens/Monstro.png",0,800,0,0)
+    monstro_group=pygame.sprite.Group()
+    monstro_group.add(monstro)
      
     #variavel para o movimento do cursor
     start = start_pos1
@@ -215,10 +217,6 @@ while loopgeral:
         plataforma_group.add(plataforma)
         plataforma_group.add(plataforma2)
     
-#    score=0
-#    scoretext = myfont.render("Score = "+str(score), 1, (0,0,0))
-#    tela.blit(scoretext, (5, 10))
-
     selec = 1
     while menuloop:      
         
@@ -473,7 +471,7 @@ while loopgeral:
         
         
         tela.blit(fundo, (0, 0))
-        scoretext = myfont.render("Tempo {0}, Score {1}, Highscore {2}".format(tick_counter,scoremax,Highscore['highscore']), 1, (0,0,0))
+        scoretext = myfont.render("Tempo {0}, Score {1}, Highscore {2}".format(int(tick_counter/20),scoremax,Highscore['highscore']), 1, (0,0,0))
         tela.blit(scoretext, (5, 10))
         boneco_group.draw(tela)
         plataforma_group.draw(tela)
@@ -525,23 +523,15 @@ while loopgeral:
     
             
     #Feito para o objeto "atravessar" as bordas e reaparecer do outro lado
-#        if boneco.rect.x > width:
-#            boneco.rect.x = 0
-#        if boneco.rect.x < 0:
-#            boneco.rect.x = width-size
-#        if boneco.rect.bottom > height + 30:
-#            boneco.kill()
-#            loopjogo2 = False
-#            gameover = True
-#            
-#        if boneco2.rect.x > width:
-#            boneco2.rect.x = 0
-#        if boneco2.rect.x < 0:
-#            boneco2.rect.x = width-size
-#        if boneco2.rect.bottom > height+30:
-#            boneco2.kill()
-#            loopjogo2 = False
-#            gameover = True
+        if boneco.rect.x > width:
+            boneco.rect.x = 0
+        if boneco.rect.x < 0:
+            boneco.rect.x = width-size          
+        if boneco2.rect.x > width:
+            boneco2.rect.x = 0
+        if boneco2.rect.x < 0:
+            boneco2.rect.x = width-size
+
     
         if boneco2.rect.bottom > height+30:
             boneco2.kill()
@@ -738,7 +728,7 @@ while loopgeral:
         
         
         tela.blit(fundo, (0, 0))
-        scoretext1 = myfont.render("Tempo {0}, ScoreBlue {1}".format(tick_counter,scoremax), 1, (0,0,0))
+        scoretext1 = myfont.render("Tempo {0}, ScoreBlue {1}".format(int(tick_counter/20),scoremax), 1, (0,0,0))
         scoretext2 = myfont.render("ScoreGreen {0}".format(scoremax2), 1, (0,0,0))
         tela.blit(scoretext1, (5, 10))
         tela.blit(scoretext2, (450, 10))
@@ -750,7 +740,7 @@ while loopgeral:
         monstro_group.draw(tela)
         pygame.display.update()      #coloca a tela na janela
         relogio.tick(fps) #Define FPS
-        tick_counter += 0.5
+        tick_counter += 1
         
         
     select = 1
@@ -790,20 +780,20 @@ while loopgeral:
                     select = 1
                     start = start_pos1
             
-                elif selec==1 and event.key==pygame.K_RETURN:
+                elif select==1 and event.key==pygame.K_RETURN:
                     gameover = False
                     menuloop = True
                     loopjogo = False
                     loopgeral = True
                     loopjogo2 = False
                     
-                elif selec==2 and event.key==pygame.K_RETURN:
+                elif select==2 and event.key==pygame.K_RETURN:
                     menuloop = False
                     gameover = False
                     loopgeral = False
                     loopjogo = False
                     loopjogo2 = False
-                    
+                    pygame.quit()
                     
             tela.blit(fundo, (0, 0))
             tela.blit(mn, [250,250])
